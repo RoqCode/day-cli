@@ -96,7 +96,7 @@ func (db *DB) InsertPing(p Ping) error {
 	return nil
 }
 
-func (db *DB) GetPingsForDay(date time.Time) (_ []Ping, err error) {
+func (db *DB) GetPingsForDay(date time.Time) ([]Ping, error) {
 	start := time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, date.Location())
 	end := start.AddDate(0, 0, 1)
 
@@ -105,11 +105,7 @@ func (db *DB) GetPingsForDay(date time.Time) (_ []Ping, err error) {
 		return nil, fmt.Errorf("pings for day query failed: %w", err)
 	}
 
-	defer func() {
-		if cerr := rows.Close(); cerr != nil && err == nil {
-			err = fmt.Errorf("closing rows failed: %w", cerr)
-		}
-	}()
+	defer rows.Close()
 
 	var pings []Ping
 	for rows.Next() {
@@ -125,4 +121,36 @@ func (db *DB) GetPingsForDay(date time.Time) (_ []Ping, err error) {
 	}
 
 	return pings, nil
+}
+
+func (db *DB) GetRecentScopes(n int) ([]string, error) {
+	rows, err := db.conn.Query(
+		`SELECT scope
+		FROM pings
+		WHERE scope IS NOT NULL AND scope != ''
+		GROUP BY scope
+		ORDER BY MAX(ts) DESC
+		LIMIT ?`,
+		n,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("recent scopes query failed: %w", err)
+	}
+
+	defer rows.Close()
+
+	var scopes []string
+	for rows.Next() {
+		var scope string
+		if err := rows.Scan(&scope); err != nil {
+			return nil, fmt.Errorf("error during rows scan: %w", err)
+		}
+		scopes = append(scopes, scope)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("rows iteration failed: %w", err)
+	}
+
+	return scopes, nil
 }

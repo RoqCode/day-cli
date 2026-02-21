@@ -68,7 +68,7 @@ data_dir = "~/.local/share/day"  # optional override
   ```
 - [x] Funktion: `InsertPing(ts time.Time, activity, scope, source string) error`
 - [x] Funktion: `GetPingsForDay(date time.Time) ([]Ping, error)`
-- [ ] Funktion: `GetRecentScopes(n int) ([]string, error)` — für fzf-Vorschläge
+- [x] Funktion: `GetRecentScopes(n int) ([]string, error)` — für fzf-Vorschläge
 
 ---
 
