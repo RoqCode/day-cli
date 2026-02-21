@@ -53,8 +53,8 @@ data_dir = "~/.local/share/day"  # optional override
 
 ## Phase 3: Datenbank (`internal/db/`)
 
-- [ ] SQLite-Verbindung aufbauen, `~/.local/share/day/day.db` erstellen
-- [ ] Schema via `CREATE TABLE IF NOT EXISTS` beim Start migrieren:
+- [x] SQLite-Verbindung aufbauen, `~/.local/share/day/day.db` erstellen
+- [x] Schema via `CREATE TABLE IF NOT EXISTS` beim Start migrieren:
   ```sql
   CREATE TABLE IF NOT EXISTS pings (
     id       INTEGER PRIMARY KEY AUTOINCREMENT,
