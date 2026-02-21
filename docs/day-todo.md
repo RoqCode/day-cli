@@ -7,9 +7,9 @@ und am Ende des Tages zu einem Report zusammengefasst (optional mit KI-Gruppieru
 
 ## Phase 1: Projekt-Setup
 
-- [ ] Neues Git-Repo anlegen: `day`
-- [ ] `go mod init github.com/DEINNAME/day`
-- [ ] Verzeichnisstruktur anlegen:
+- [x] Neues Git-Repo anlegen: `day`
+- [x] `go mod init github.com/DEINNAME/day`
+- [x] Verzeichnisstruktur anlegen:
   ```
   day/
     cmd/day/main.go          # Entrypoint
@@ -35,6 +35,7 @@ und am Ende des Tages zu einem Report zusammengefasst (optional mit KI-Gruppieru
 - [ ] Default-Werte wenn Config nicht vorhanden
 
 Beispiel `config.toml`:
+
 ```toml
 [ai]
 provider    = "openai"
@@ -102,6 +103,7 @@ day ping --silent "gc: PROJ-42: fix" --scope "PROJ-42"  # automatisiert
 - [ ] Scope-Übersicht: wie viele Pings pro Scope heute
 
 Beispiel-Output:
+
 ```
 Today: 8 pings (09:04 – 16:45)
 
@@ -121,6 +123,7 @@ meeting           1
 - [ ] Schönes Terminal-Format mit `fmt` (kein externes Framework nötig)
 
 Beispiel-Output:
+
 ```
 Friday, 21 February 2026 — 8 pings
 
@@ -144,9 +147,9 @@ meeting
 - [ ] Pings als strukturierten Text-Prompt aufbereiten
 - [ ] System-Prompt schreiben:
   > "Du bist ein Assistent der hilft, Arbeitszeiten zu dokumentieren.
-  >  Gruppiere die folgenden Aktivitäten nach Thema, schätze den ungefähren
-  >  Zeitaufwand pro Gruppe und formuliere kurze, prägnante Zusammenfassungen
-  >  die sich für einen Arbeitszeitbericht eignen."
+  > Gruppiere die folgenden Aktivitäten nach Thema, schätze den ungefähren
+  > Zeitaufwand pro Gruppe und formuliere kurze, prägnante Zusammenfassungen
+  > die sich für einen Arbeitszeitbericht eignen."
 - [ ] Antwort ausgeben
 - [ ] Graceful error wenn kein API-Key gesetzt (hilfreiche Fehlermeldung)
 
