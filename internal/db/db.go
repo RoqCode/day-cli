@@ -96,7 +96,7 @@ func (db *DB) InsertPing(p Ping) error {
 	return nil
 }
 
-func (db *DB) GetPingsForDay(date time.Time) ([]Ping, error) {
+func (db *DB) GetPingsForDay(date time.Time) (_ []Ping, err error) {
 	start := time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, date.Location())
 	end := start.AddDate(0, 0, 1)
 
@@ -105,7 +105,11 @@ func (db *DB) GetPingsForDay(date time.Time) ([]Ping, error) {
 		return nil, fmt.Errorf("pings for day query failed: %w", err)
 	}
 
-	defer rows.Close()
+	defer func() {
+		if cerr := rows.Close(); cerr != nil && err == nil {
+			err = fmt.Errorf("closing rows failed: %w", cerr)
+		}
+	}()
 
 	var pings []Ping
 	for rows.Next() {
