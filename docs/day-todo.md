@@ -66,8 +66,8 @@ data_dir = "~/.local/share/day"  # optional override
   CREATE INDEX IF NOT EXISTS idx_pings_ts    ON pings(ts);
   CREATE INDEX IF NOT EXISTS idx_pings_scope ON pings(scope);
   ```
-- [ ] Funktion: `InsertPing(ts time.Time, activity, scope, source string) error`
-- [ ] Funktion: `GetPingsForDay(date time.Time) ([]Ping, error)`
+- [x] Funktion: `InsertPing(ts time.Time, activity, scope, source string) error`
+- [x] Funktion: `GetPingsForDay(date time.Time) ([]Ping, error)`
 - [ ] Funktion: `GetRecentScopes(n int) ([]string, error)` — für fzf-Vorschläge
 
 ---

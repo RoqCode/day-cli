@@ -15,6 +15,13 @@ type DB struct {
 	conn *sql.DB
 }
 
+type Ping struct {
+	TS       time.Time
+	Activity string
+	Scope    string
+	Source   string
+}
+
 const dbPath = ".local/share/day"
 
 func InitDB() (*DB, error) {
@@ -77,14 +84,41 @@ func migrate(db *DB) error {
 	return nil
 }
 
-func (db *DB) InsertPing(ts time.Time, activity, scope, source string) error {
+func (db *DB) InsertPing(p Ping) error {
 	_, err := db.conn.Exec(
 		`INSERT INTO pings (ts, activity, scope, source) VALUES (?, ?, ?, ?)`,
-		ts, activity, scope, source,
+		p.TS, p.Activity, p.Scope, p.Source,
 	)
 	if err != nil {
 		return fmt.Errorf("insert ping failed: %w", err)
 	}
 
 	return nil
+}
+
+func (db *DB) GetPingsForDay(date time.Time) ([]Ping, error) {
+	start := time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, date.Location())
+	end := start.AddDate(0, 0, 1)
+
+	rows, err := db.conn.Query(`SELECT ts, activity, scope, source FROM pings WHERE ts >= ? AND ts < ?`, start, end)
+	if err != nil {
+		return nil, fmt.Errorf("pings for day query failed: %w", err)
+	}
+
+	defer rows.Close()
+
+	var pings []Ping
+	for rows.Next() {
+		var ping Ping
+		if err := rows.Scan(&ping.TS, &ping.Activity, &ping.Scope, &ping.Source); err != nil {
+			return nil, fmt.Errorf("error during rows scan: %w", err)
+		}
+		pings = append(pings, ping)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("rows iteration failed: %w", err)
+	}
+
+	return pings, nil
 }
