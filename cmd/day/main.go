@@ -2,26 +2,45 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
+	"time"
 
+	"github.com/roqcode/day/internal/db"
 	"github.com/spf13/cobra"
 )
 
-func main() {
-	// database, err := db.InitDB()
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// defer database.Close()
+var database *db.DB
 
+func main() {
 	Execute()
+
+	pingsRes, err := database.GetPingsForDay(time.Now())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("\nPings heute (%d):\n", len(pingsRes))
+	for _, p := range pingsRes {
+		fmt.Printf("  [%s] %s (scope: %s, source: %s)\n",
+			p.TS.Format("15:04:05"), p.Activity, p.Scope, p.Source)
+	}
+
+	database.Close()
 }
 
 var rootCmd = &cobra.Command{
 	Use:   "day",
 	Short: "day is a time tracking tool",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		var err error
+		database, err = db.InitDB()
+		if err != nil {
+			log.Fatal(err)
+		}
+	},
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("hello day")
+		cmd.Help()
 	},
 }
 
