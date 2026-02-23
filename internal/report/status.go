@@ -46,20 +46,22 @@ func Status(d *db.DB) error {
 		return pingsByScope[keys[i]] > pingsByScope[keys[j]]
 	})
 
-	fmt.Printf("\nPings today: %v (%v - %v)\n\n", len(pings), times[0].Format("15:04"), times[len(times)-1].Format("15:04"))
+	fmt.Printf("\nPings today: %v (%v - %v)\n---\n", len(pings), times[0].Format("15:04"), times[len(times)-1].Format("15:04"))
 
 	minPadding := len(longestKey) + 3
 	for _, k := range keys {
 		if k == "" {
 			padding := minPadding - len("no scope")
-			out := fmt.Sprint("no scope", strings.Repeat(" ", padding), pingsByScope[k], " ", strings.Repeat("█", pingsByScope[k]))
-			fmt.Println(out)
+			out("no scope", padding, pingsByScope[k])
 		} else {
 			padding := minPadding - len(k)
-			out := fmt.Sprint(k, strings.Repeat(" ", padding), pingsByScope[k], " ", strings.Repeat("█", pingsByScope[k]))
-			fmt.Println(out)
+			out(k, padding, pingsByScope[k])
 		}
 	}
 
 	return nil
+}
+
+func out(keyName string, padding, count int) {
+	fmt.Println(fmt.Sprint(keyName, strings.Repeat(" ", padding), count, " ", strings.Repeat("█", count)))
 }
