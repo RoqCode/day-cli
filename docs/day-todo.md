@@ -21,10 +21,10 @@ und am Ende des Tages zu einem Report zusammengefasst (optional mit KI-Gruppieru
     internal/ai/             # KI-Wrapper
   ```
 - [ ] Dependencies hinzufügen:
-  - `modernc.org/sqlite` — pure Go SQLite, kein CGO
-  - `github.com/BurntSushi/toml` — Config-Parser
-  - `github.com/spf13/cobra` — CLI-Framework (Commands/Flags)
-  - `github.com/sashabaranov/go-openai` — OpenAI Client
+  - [x] `modernc.org/sqlite` — pure Go SQLite, kein CGO
+  - [ ] `github.com/BurntSushi/toml` — Config-Parser
+  - [x] `github.com/spf13/cobra` — CLI-Framework (Commands/Flags)
+  - [ ] `github.com/sashabaranov/go-openai` — OpenAI Client
 
 ---
 
@@ -78,13 +78,13 @@ data_dir = "~/.local/share/day"  # optional override
   - Zuletzt verwendete Scopes oben (letzte 3 aus DB via `GetRecentScopes`)
   - Predefined Scopes aus Config darunter
   - `CUSTOM`-Option für freie Eingabe
-- [ ] Zeitparser implementieren:
+- [x] Zeitparser implementieren:
   - `--at 14:30` → HH:MM parsen, heutiges Datum verwenden
   - `--ago 30` → `time.Now().Add(-30 * time.Minute)`
   - Default: `time.Now()`
 - [ ] `--silent` Flag: kein Output, kein fzf-Picker (für automatisierte Pings)
 - [ ] `--scope` Flag: Scope direkt übergeben (für automatisierte Pings)
-- [ ] Ping in DB schreiben
+- [x] Ping in DB schreiben
 
 ```bash
 # Beispiel-Aufrufe
