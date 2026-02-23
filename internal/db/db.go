@@ -100,7 +100,7 @@ func (db *DB) GetPingsForDay(date time.Time) ([]Ping, error) {
 	start := time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, date.Location())
 	end := start.AddDate(0, 0, 1)
 
-	rows, err := db.conn.Query(`SELECT ts, activity, scope, source FROM pings WHERE ts >= ? AND ts < ?`, start, end)
+	rows, err := db.conn.Query(`SELECT ts, activity, scope, source FROM pings WHERE ts >= ? AND ts < ? ORDER BY scope, ts`, start, end)
 	if err != nil {
 		return nil, fmt.Errorf("pings for day query failed: %w", err)
 	}

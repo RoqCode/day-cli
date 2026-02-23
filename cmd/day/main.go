@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"github.com/roqcode/day/internal/db"
 	"github.com/spf13/cobra"
@@ -15,16 +14,16 @@ var database *db.DB
 func main() {
 	Execute()
 
-	pingsRes, err := database.GetPingsForDay(time.Now())
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Printf("\nPings heute (%d):\n", len(pingsRes))
-	for _, p := range pingsRes {
-		fmt.Printf("  [%s] %s (scope: %s, source: %s)\n",
-			p.TS.Format("15:04:05"), p.Activity, p.Scope, p.Source)
-	}
+	// pingsRes, err := database.GetPingsForDay(time.Now())
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	//
+	// fmt.Printf("\nPings heute (%d):\n", len(pingsRes))
+	// for _, p := range pingsRes {
+	// 	fmt.Printf("  [%s] %s (scope: %s, source: %s)\n",
+	// 		p.TS.Format("15:04:05"), p.Activity, p.Scope, p.Source)
+	// }
 
 	database.Close()
 }

@@ -98,9 +98,9 @@ day ping --silent "gc: PROJ-42: fix" --scope "PROJ-42"  # automatisiert
 
 ## Phase 5: `day status`
 
-- [ ] Anzahl Pings heute anzeigen
-- [ ] Timestamp des ersten und letzten Pings heute
-- [ ] Scope-Übersicht: wie viele Pings pro Scope heute
+- [x] Anzahl Pings heute anzeigen
+- [x] Timestamp des ersten und letzten Pings heute
+- [x] Scope-Übersicht: wie viele Pings pro Scope heute
 
 Beispiel-Output:
 

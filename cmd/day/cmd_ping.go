@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"time"
 
@@ -35,7 +36,9 @@ var pingCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		ping.Ping(database, args[0], ago, at, silent, scope, source)
+		if err := ping.Ping(database, args[0], ago, at, silent, scope, source); err != nil {
+			log.Fatal(err)
+		}
 	},
 }
 
