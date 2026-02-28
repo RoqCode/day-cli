@@ -23,6 +23,8 @@ func Ping(d *db.DB, activity string, ago int8, at time.Time, silent bool, scopeA
 			return err
 		}
 
+		scopes = append(scopes, "CUSTOM")
+
 		seen := make(map[string]struct{}, len(scopes))
 		for _, s := range scopes {
 			seen[s] = struct{}{}
@@ -33,7 +35,6 @@ func Ping(d *db.DB, activity string, ago int8, at time.Time, silent bool, scopeA
 				seen[s] = struct{}{}
 			}
 		}
-		scopes = append(scopes, "CUSTOM")
 
 		chosenScope, err = scope.GetScope(scopes)
 		if err != nil {

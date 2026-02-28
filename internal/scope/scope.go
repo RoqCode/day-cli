@@ -32,6 +32,17 @@ func GetScope(s []string) (string, error) {
 		if err != nil {
 			return "", err
 		}
+
+		if chosenScope == "" {
+			fmt.Println("scope can't be empty")
+			chosenScope, err = getCustomScope()
+			if err != nil {
+				return "", err
+			}
+			if chosenScope == "" {
+				return "", ErrAborted
+			}
+		}
 	}
 
 	return chosenScope, nil
@@ -46,6 +57,9 @@ func fzf(s []string) (string, error) {
 
 	err := cmd.Start()
 	if err != nil {
+		if errors.Is(err, exec.ErrNotFound) {
+			return getCustomScope()
+		}
 		return "", err
 	}
 
