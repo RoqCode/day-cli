@@ -22,7 +22,7 @@ und am Ende des Tages zu einem Report zusammengefasst (optional mit KI-Gruppieru
   ```
 - [ ] Dependencies hinzufügen:
   - [x] `modernc.org/sqlite` — pure Go SQLite, kein CGO
-  - [ ] `github.com/BurntSushi/toml` — Config-Parser
+  - [x] `github.com/BurntSushi/toml` — Config-Parser
   - [x] `github.com/spf13/cobra` — CLI-Framework (Commands/Flags)
   - [ ] `github.com/sashabaranov/go-openai` — OpenAI Client
 
@@ -74,7 +74,7 @@ data_dir = "~/.local/share/day"  # optional override
 
 ## Phase 4: `day ping` (`internal/ping/` + `internal/scope/`)
 
-- [ ] Scope-Picker mit fzf implementieren (Shell-out zu `fzf`):
+- [x] Scope-Picker mit fzf implementieren (Shell-out zu `fzf`):
   - Zuletzt verwendete Scopes oben (letzte 3 aus DB via `GetRecentScopes`)
   - Predefined Scopes aus Config darunter
   - `CUSTOM`-Option für freie Eingabe
@@ -82,8 +82,8 @@ data_dir = "~/.local/share/day"  # optional override
   - `--at 14:30` → HH:MM parsen, heutiges Datum verwenden
   - `--ago 30` → `time.Now().Add(-30 * time.Minute)`
   - Default: `time.Now()`
-- [ ] `--silent` Flag: kein Output, kein fzf-Picker (für automatisierte Pings)
-- [ ] `--scope` Flag: Scope direkt übergeben (für automatisierte Pings)
+- [x] `--silent` Flag: kein Output, kein fzf-Picker (für automatisierte Pings)
+- [x] `--scope` Flag: Scope direkt übergeben (für automatisierte Pings)
 - [x] Ping in DB schreiben
 
 ```bash
