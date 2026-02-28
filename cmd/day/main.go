@@ -5,11 +5,15 @@ import (
 	"log"
 	"os"
 
+	"github.com/roqcode/day/internal/config"
 	"github.com/roqcode/day/internal/db"
 	"github.com/spf13/cobra"
 )
 
-var database *db.DB
+var (
+	c        *config.Config
+	database *db.DB
+)
 
 func main() {
 	Execute()
@@ -33,7 +37,13 @@ var rootCmd = &cobra.Command{
 	Short: "day is a time tracking tool",
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		var err error
-		database, err = db.InitDB()
+
+		c, err = config.GetConfig()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		database, err = db.InitDB(c.Day.DataDir)
 		if err != nil {
 			log.Fatal(err)
 		}

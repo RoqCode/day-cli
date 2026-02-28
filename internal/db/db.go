@@ -22,16 +22,14 @@ type Ping struct {
 	Source   string
 }
 
-const dbPath = ".local/share/day"
-
-func InitDB() (*DB, error) {
+func InitDB(dataDir string) (*DB, error) {
 	// check if db path exists, create if not
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		return nil, fmt.Errorf("could not resolve UserHomeDir: %w", err)
 	}
 
-	defaultPath := filepath.Join(homeDir, dbPath)
+	defaultPath := filepath.Join(homeDir, dataDir)
 
 	if _, err := os.Stat(defaultPath); os.IsNotExist(err) {
 		err = os.MkdirAll(defaultPath, 0o755)

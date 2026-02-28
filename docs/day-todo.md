@@ -30,8 +30,8 @@ und am Ende des Tages zu einem Report zusammengefasst (optional mit KI-Gruppieru
 
 ## Phase 2: Config (`internal/config/`)
 
-- [ ] `~/.config/day/config.toml` definieren und parsen
-- [ ] Struct für Config anlegen (`Config`, `AIConfig`, `ScopesConfig`)
+- [x] `~/.config/day/config.toml` definieren und parsen
+- [x] Struct für Config anlegen (`Config`, `AIConfig`, `ScopesConfig`)
 - [ ] Default-Werte wenn Config nicht vorhanden
 
 Beispiel `config.toml`:
