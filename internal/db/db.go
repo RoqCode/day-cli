@@ -82,16 +82,17 @@ func migrate(db *DB) error {
 	return nil
 }
 
-func (db *DB) InsertPing(p Ping) error {
-	_, err := db.conn.Exec(
-		`INSERT INTO pings (ts, activity, scope, source) VALUES (?, ?, ?, ?)`,
+func (db *DB) InsertPing(p Ping) (Ping, error) {
+	var inserted Ping
+	err := db.conn.QueryRow(
+		`INSERT INTO pings (ts, activity, scope, source) VALUES (?, ?, ?, ?) RETURNING ts, activity, scope, source`,
 		p.TS, p.Activity, p.Scope, p.Source,
-	)
+	).Scan(&inserted.TS, &inserted.Activity, &inserted.Scope, &inserted.Source)
 	if err != nil {
-		return fmt.Errorf("insert ping failed: %w", err)
+		return Ping{}, fmt.Errorf("insert ping failed: %w", err)
 	}
 
-	return nil
+	return inserted, nil
 }
 
 func (db *DB) GetPingsForDay(date time.Time) ([]Ping, error) {
