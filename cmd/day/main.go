@@ -18,17 +18,6 @@ var (
 func main() {
 	Execute()
 
-	// pingsRes, err := database.GetPingsForDay(time.Now())
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	//
-	// fmt.Printf("\nPings heute (%d):\n", len(pingsRes))
-	// for _, p := range pingsRes {
-	// 	fmt.Printf("  [%s] %s (scope: %s, source: %s)\n",
-	// 		p.TS.Format("15:04:05"), p.Activity, p.Scope, p.Source)
-	// }
-
 	if err := database.Close(); err != nil {
 		log.Printf("could not close db connection: %v", err)
 	}
