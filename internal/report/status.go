@@ -2,7 +2,6 @@ package report
 
 import (
 	"fmt"
-	"slices"
 	"sort"
 	"strings"
 	"time"
@@ -22,23 +21,21 @@ func Status(d *db.DB) error {
 	}
 
 	pingsByScope := make(map[string]int)
-	var times []time.Time
 
 	for _, ping := range pings {
-		times = append(times, ping.TS)
 		pingsByScope[ping.Scope]++
 	}
 
-	// sort time slice
-	slices.SortFunc(times, func(a, b time.Time) int { return a.Compare(b) })
+	start, end := pingTimeRange(pings)
 
 	// sort ping map
 	keys := make([]string, 0, len(pingsByScope))
 
-	longestKey := ""
+	longestLabel := ""
 	for key := range pingsByScope {
-		if len(key) > len(longestKey) {
-			longestKey = key
+		label := scopeLabel(key)
+		if len(label) > len(longestLabel) {
+			longestLabel = label
 		}
 		keys = append(keys, key)
 	}
@@ -46,17 +43,13 @@ func Status(d *db.DB) error {
 		return pingsByScope[keys[i]] > pingsByScope[keys[j]]
 	})
 
-	fmt.Printf("\nPings today: %v (%v - %v)\n---\n", len(pings), times[0].Format("15:04"), times[len(times)-1].Format("15:04"))
+	fmt.Printf("\nPings today: %v (%v - %v)\n---\n", len(pings), start.Format("15:04"), end.Format("15:04"))
 
-	minPadding := len(longestKey) + 3
+	minPadding := len(longestLabel) + 3
 	for _, k := range keys {
-		if k == "" {
-			padding := minPadding - len("no scope")
-			out("no scope", padding, pingsByScope[k])
-		} else {
-			padding := minPadding - len(k)
-			out(k, padding, pingsByScope[k])
-		}
+		label := scopeLabel(k)
+		padding := minPadding - len(label)
+		out(label, padding, pingsByScope[k])
 	}
 
 	return nil
