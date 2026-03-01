@@ -29,7 +29,9 @@ func main() {
 	// 		p.TS.Format("15:04:05"), p.Activity, p.Scope, p.Source)
 	// }
 
-	database.Close()
+	if err := database.Close(); err != nil {
+		log.Printf("could not close db connection: %v", err)
+	}
 }
 
 var rootCmd = &cobra.Command{

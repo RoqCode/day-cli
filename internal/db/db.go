@@ -56,6 +56,10 @@ func InitDB(dataDir string) (*DB, error) {
 }
 
 func (db *DB) Close() error {
+	if db == nil || db.conn == nil {
+		return nil
+	}
+
 	return db.conn.Close()
 }
 
