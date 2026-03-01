@@ -32,7 +32,7 @@ und am Ende des Tages zu einem Report zusammengefasst (optional mit KI-Gruppieru
 
 - [x] `~/.config/day/config.toml` definieren und parsen
 - [x] Struct für Config anlegen (`Config`, `AIConfig`, `ScopesConfig`)
-- [ ] Default-Werte wenn Config nicht vorhanden
+- [x] Default-Werte wenn Config nicht vorhanden
 
 Beispiel `config.toml`:
 
@@ -117,10 +117,10 @@ meeting           1
 
 ## Phase 6: `day report` (plain)
 
-- [ ] Alle Pings des Tages chronologisch ausgeben, gruppiert nach Scope
-- [ ] Flag `--yesterday` unterstützen
-- [ ] Argument `YYYY-MM-DD` für beliebigen Tag unterstützen
-- [ ] Schönes Terminal-Format mit `fmt` (kein externes Framework nötig)
+- [x] Alle Pings des Tages chronologisch ausgeben, gruppiert nach Scope
+- [x] Flag `--yesterday` unterstützen
+- [x] Argument `YYYY-MM-DD` für beliebigen Tag unterstützen
+- [x] Schönes Terminal-Format mit `fmt` (kein externes Framework nötig)
 
 Beispiel-Output:
 
@@ -141,7 +141,7 @@ meeting
 
 ---
 
-## Phase 7: `day report --ai`
+## (optional) Phase 7: `day report --ai`
 
 - [ ] OpenAI-Client einbinden (`go-openai`)
 - [ ] Pings als strukturierten Text-Prompt aufbereiten
@@ -157,14 +157,7 @@ meeting
 
 ## Phase 8: Installation
 
-- [ ] `Makefile` mit `make install` → baut Binary nach `~/.local/bin/day`
-
-```makefile
-install:
-	go build -o ~/.local/bin/day ./cmd/day
-```
-
-- [ ] Alternativ: `go install ./cmd/day` direkt nutzen
+- [ ] `go install ./cmd/day` direkt nutzen
 
 ---
 
