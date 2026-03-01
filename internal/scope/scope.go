@@ -50,7 +50,19 @@ func GetScope(s []string) (string, error) {
 
 func fzf(s []string) (string, error) {
 	var result strings.Builder
-	cmd := exec.Command("fzf")
+	cmd := exec.Command(
+		"fzf",
+		"--height", "~40%",
+		"--min-height", "8",
+		"--layout", "reverse",
+		"--border",
+		"--info", "inline",
+		"--prompt", "Scope > ",
+		"--header", "Select scope",
+		"--select-1",
+		"--exit-0",
+		"--cycle",
+	)
 	cmd.Stdout = &result
 	cmd.Stderr = os.Stderr
 	cmd.Stdin = strings.NewReader(strings.Join(s, "\n"))
