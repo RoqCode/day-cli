@@ -8,6 +8,7 @@
 - Track scope/context per activity (ticket, meeting, etc.)
 - Show a quick overview of today (`day status`)
 - Print a grouped day report (`day report`)
+- Visualize activity over the year as a heatmap (`day heatmap`)
 - Store data locally in SQLite
 
 ## Installation
@@ -35,6 +36,8 @@ day ping --silent "gc: fix auth edge case" --scope "PROJ-42" --source "git"
 day status
 
 # day report
+day heatmap
+
 day report
 day report --back 1
 day report --date 21.02.2026
