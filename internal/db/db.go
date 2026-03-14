@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	_ "modernc.org/sqlite"
@@ -124,6 +125,48 @@ func (db *DB) GetPingsForDay(date time.Time) ([]Ping, error) {
 	}
 
 	return pings, nil
+}
+
+type DayMap map[time.Time]int
+
+func (db *DB) GetAllPingsInRange(start, end time.Time) (DayMap, int, error) {
+	rows, err := db.conn.Query(
+		`SELECT ts FROM pings WHERE ts >= ? AND ts < ?`,
+		start, end,
+	)
+	if err != nil {
+		return nil, 0, fmt.Errorf(": %w", err)
+	}
+
+	defer rows.Close()
+
+	days := make(DayMap)
+	for rows.Next() {
+		var dayTS string
+		if err := rows.Scan(&dayTS); err != nil {
+			return nil, 0, fmt.Errorf("error during rows scan: %w", err)
+		}
+
+		date, err := time.Parse(time.DateOnly, strings.SplitN(dayTS, "T", 2)[0])
+		if err != nil {
+			return nil, 0, fmt.Errorf("error parsing date: %w", err)
+		}
+
+		days[date]++
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, 0, fmt.Errorf("rows iteration failed: %w", err)
+	}
+
+	highestCount := 0
+	for _, count := range days {
+		if count > highestCount {
+			highestCount = count
+		}
+	}
+
+	return days, highestCount, nil
 }
 
 func (db *DB) GetRecentScopes(n int) ([]string, error) {
